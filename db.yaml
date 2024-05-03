@@ -3,6 +3,10 @@
   hosts: db
   vars:
     login_hostname: db.muvva.online
+  vars_prompt:
+    - name: login_password
+      prompt: enter user password
+      private: false
   tasks:
   - name: installing mysql server
     ansible.builtin.dnf:
@@ -27,7 +31,7 @@
   - name: checking whether able to connect db #if it connects,db password is already setup
     community.mysql.mysql_info:
       login_user: root
-      login_password: ExpenseApp@1
+      login_password: "{{ login_password }}"
       login_host: "{{ login_hostname }}"
       filter: version
     ignore_errors: yes  #ignore errors if password is not setup
@@ -36,3 +40,7 @@
   - name: printing the connection output
     ansible.builtin.debug:
       msg: "The output of connecting to db host is:{{ mysql_connection_output }}"
+
+  - name: setting up root password
+    ansible.builtin.command: " mysql_secure_installation --set-root-pass {{ login_password }} "
+    when: mysql_connection_output.failed is true
