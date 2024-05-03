@@ -49,8 +49,8 @@
       name:
       - PyMySQL   #needed for python based ansible to connect to mysql on server
       - cryptography #need to be installed to enter pwd in command line
-    executable: pip3.9 #since ansible python version is 3.9, we have to use module 3.9
-    state: latest
+      executable: pip3.9 #since ansible python version is 3.9, we have to use module 3.9
+      state: latest
 
   - name: import data into mysql
     community.mysql.mysql_db:
