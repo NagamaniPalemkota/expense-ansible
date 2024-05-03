@@ -12,7 +12,12 @@
     ansible.builtin.command: " dnf module enable nodejs:20 -y"
 
   - name: installing nodejs
-    ansible.builtin.command: "dnf install nodejs -y"
+    ansible.builtin.dnf:
+      name: "{{ item }}"
+      state: installed
+    loop:
+    - nodejs
+    - mysql
 
   - name: adding expense user
     ansible.builtin.user:
@@ -60,3 +65,7 @@
       target: /app/schema/backend.sql
       state: import
       name: all #name should be all to mention it to dump all data when dump stateis mentioned
+
+  - name: daemon reloading the service
+    ansible.builtin.systemd_service:
+      daemon_reload: true
