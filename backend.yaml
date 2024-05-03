@@ -30,3 +30,8 @@
       src: /tmp/backend.zip
       dest: /app
       remote_src: yes
+
+  - name: install dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir:  /app #we're asking to change to /app and then, execute this install cmd using args option
