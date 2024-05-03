@@ -6,14 +6,23 @@
   tasks:
   - name: installing mysql server
     ansible.builtin.dnf:
-        name: mysql-server
-        state: latest
+      name: mysql-server
+      state: latest
 
   - name: starting and enabling mysql-server
     ansible.builtin.service:   
-        name: mysqld
-        state: started
-        enabled: yes
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: install mysql-python dependencies
+    ansible.builtin.pip:
+      name:
+      - PyMySQL   #needed for python based ansible to connect to mysql on server
+      - cryptography #need to be installed to enter pwd in command line
+      executable: pip3.9 #since ansible python version is 3.9, we have to use module 3.9
+      state: latest
+      
 
   - name: checking whether able to connect db #if it connects,db password is already setup
     community.mysql.mysql_info:
