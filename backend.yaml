@@ -1,6 +1,9 @@
 - name: configure backend server
   hosts: backend
   become: yes
+  vars:
+    login_hostname: db.muvva.online
+    login_pwd: ExpenseApp@1
   tasks:
   - name: disabling nodejs 
     ansible.builtin.command: " dnf module disable nodejs -y"
@@ -40,3 +43,19 @@
     ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
+
+  - name: install mysql-python dependencies
+    ansible.builtin.pip:
+      name:
+      - PyMySQL   #needed for python based ansible to connect to mysql on server
+      - cryptography #need to be installed to enter pwd in command line
+    executable: pip3.9 #since ansible python version is 3.9, we have to use module 3.9
+    state: latest
+
+  - name: import data into mysql
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: " {{ login_pwd }} "
+      login_host: "{{ login_hostname }}"
+      target: /app/schema/backend.sql
+      state: dump
