@@ -59,3 +59,4 @@
       login_host: "{{ login_hostname }}"
       target: /app/schema/backend.sql
       state: dump
+      name: all #name should be all to mention it to dump all data when dump stateis mentioned
