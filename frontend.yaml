@@ -14,5 +14,6 @@
       enabled:  yes
 
   - name: delete defailt directory
-    path: /usr/share/nginx/html/*
-    state:  absent
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state:  absent
