@@ -13,7 +13,12 @@
       state:  started
       enabled:  yes
 
-  - name: delete defailt directory
+  - name: delete default directory of html
     ansible.builtin.file:
       path: /usr/share/nginx/html
       state:  absent
+
+  - name: creating the directory html
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state:  directory     #state shoukd be directory for creating the same
