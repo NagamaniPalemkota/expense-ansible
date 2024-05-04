@@ -3,7 +3,7 @@ Description = Backend Service
 
 [Service]
 User=expense
-Environment=DB_HOST="db.mubba.online"
+Environment=DB_HOST="db.muvva.online"
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
 
